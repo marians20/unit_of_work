@@ -13,15 +13,15 @@ public class GenericRepository<TContext> : IGenericRepository where TContext: Db
         _context = context;
     }
 
-    public async Task Create<T>(T entity) where T : class =>
+    public async Task CreateAsync<T>(T entity) where T : class =>
         await Set<T>().AddAsync(entity);
 
     public void Update<T>(T entity) where T : class =>
         _context.Entry(entity).State = EntityState.Modified;
 
-    public async Task Delete<T>(Guid id, CancellationToken cancellationToken) where T : class
+    public async Task DeleteAsync<T>(Guid id, CancellationToken cancellationToken) where T : class
     {
-        var entity = await GetById<T>(id, cancellationToken);
+        var entity = await GetByIdAsync<T>(id, cancellationToken);
         if (entity is null)
         {
             return;
@@ -32,13 +32,13 @@ public class GenericRepository<TContext> : IGenericRepository where TContext: Db
 
     private DbSet<T> Set<T>() where T: class => _context.Set<T>();
 
-    public async Task<IEnumerable<T>> All<T>(CancellationToken cancellationToken) where T : class =>
+    public async Task<IEnumerable<T>> AllAsync<T>(CancellationToken cancellationToken) where T : class =>
         await Set<T>().ToListAsync(cancellationToken: cancellationToken);
 
-    public async Task<T?> GetById<T>(Guid id, CancellationToken cancellationToken) where T : class =>
+    public async Task<T?> GetByIdAsync<T>(Guid id, CancellationToken cancellationToken) where T : class =>
         await Set<T>().FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
 
-    public async Task<bool> Any<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) where T : class =>
+    public async Task<bool> AnyAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) where T : class =>
         await Set<T>().AnyAsync(predicate, cancellationToken);
 
     public IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate) where T : class =>
