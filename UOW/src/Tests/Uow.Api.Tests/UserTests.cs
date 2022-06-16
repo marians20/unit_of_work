@@ -13,12 +13,10 @@ namespace Uow.Api.Tests
             var client = application.CreateClient();
 
             var response = await client.GetAsync("User");
-            
-            response.IsSuccessStatusCode.Should().BeTrue();
-            response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
-
             var body = await response.Content.ReadAsStringAsync();
 
+            response.IsSuccessStatusCode.Should().BeTrue();
+            response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
             body.Should().NotBeNullOrEmpty();
 
         }

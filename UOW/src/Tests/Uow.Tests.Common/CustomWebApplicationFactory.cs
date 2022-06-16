@@ -22,8 +22,19 @@ namespace Uow.Tests.Common
 
                 services.AddDbContext<UowContext>(options => {
                     options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    //options.UseSqlite("Data Source=uow.tests.db");
                 });
             });
         }
+
+        //protected override TestServer CreateServer(IWebHostBuilder builder)
+        //{
+        //    using (var scope = builder.ConfigureServices())
+        //    {
+        //        var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+        //        dataContext.Database.Migrate();
+        //    }
+        //    return base.CreateServer(builder);
+        //}
     }
 }
