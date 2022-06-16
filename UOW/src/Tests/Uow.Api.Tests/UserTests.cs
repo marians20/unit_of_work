@@ -9,7 +9,6 @@ namespace Uow.Api.Tests
         public async Task Test1()
         {
             var application = new CustomWebApplicationFactory();
-
             var client = application.CreateClient();
 
             var response = await client.GetAsync("User");
