@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Uow.Data.Configurations;
@@ -15,9 +16,14 @@ public class UowContext : DbContext
 
     private void EnsureThatDatabaseDirectoryIsCreated()
     {
+        if (!Database.IsRelational())
+        {
+            return;
+        }
+
         var csBuilder = new SqliteConnectionStringBuilder(Database.GetConnectionString());
         var dbDirectory = Path.GetDirectoryName(csBuilder.DataSource);
-        if (dbDirectory != null && !Directory.Exists(dbDirectory))
+        if (!string.IsNullOrEmpty(dbDirectory) && !Directory.Exists(dbDirectory))
         {
             Directory.CreateDirectory(dbDirectory);
         }

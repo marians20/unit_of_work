@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="Uow.Api.Tests" />
+		<InternalsVisibleTo Include="Uow.Tests.Common" />
 	</ItemGroup>
 
 	<ItemGroup>
