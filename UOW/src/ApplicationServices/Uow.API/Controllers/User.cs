@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Uow.Domain.Contracts;
 using Uow.Domain.Dtos;
 using Uow.Domain.Services;
 
@@ -26,7 +27,7 @@ namespace Uow.API.Controllers
             Ok(await _service.CreateAsync(user, cancellationToken));
 
         /// <summary>
-        /// Updtes a user
+        /// Updates a user
         /// </summary>
         /// <param name="user"></param>
         /// <param name="cancellationToken"></param>

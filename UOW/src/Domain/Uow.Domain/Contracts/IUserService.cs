@@ -1,6 +1,6 @@
 ﻿using Uow.Domain.Dtos;
 
-namespace Uow.Domain.Services;
+namespace Uow.Domain.Contracts;
 
 public interface IUserService
 {

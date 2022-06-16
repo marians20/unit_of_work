@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Uow.Domain.Contracts;
 using Uow.Domain.Mappers;
 using Uow.Domain.Services;
 

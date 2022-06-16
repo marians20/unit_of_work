@@ -10,13 +10,13 @@ public static class IoC
 {
     public static IServiceCollection RegisterData(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<UowContext>(opts =>
-        {
-            var connectionString = configuration.GetConnectionString("default").SolveSpecialFolder();
-
-            opts.UseSqlite(connectionString, a =>
             {
-                a.MigrationsAssembly(typeof(UowContext).Assembly.FullName);
-            });
-        })
-            .AddScoped<IGenericRepository, GenericRepository<UowContext>>();
+                var connectionString = configuration.GetConnectionString("default").SolveSpecialFolder();
+
+                opts.UseSqlite(connectionString, a =>
+                {
+                    a.MigrationsAssembly(typeof(UowContext).Assembly.FullName);
+                });
+            })
+            .AddScoped<IUnitOfWork, UnitOfWork>();
 }
