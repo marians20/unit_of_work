@@ -8,13 +8,13 @@ public sealed class UnitOfWork : IUnitOfWork
 
     private IGenericRepository? _userRepository;
 
-    public UnitOfWork(UowContext context)
+    public UnitOfWork(UowContext context, IGenericRepository userRepository)
     {
         _context = context;
+        Users = userRepository;
     }
 
-    public IGenericRepository UserRepository =>
-        _userRepository ??= new GenericRepository<UowContext>(_context);
+    public IGenericRepository Users { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken) =>
         await _context.SaveChangesAsync(cancellationToken);

@@ -2,6 +2,6 @@
 
 public interface IUnitOfWork
 {
-    IGenericRepository UserRepository { get; }
+    IGenericRepository Users { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

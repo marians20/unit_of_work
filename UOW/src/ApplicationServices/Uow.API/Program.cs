@@ -5,7 +5,7 @@ using Uow.Domain;
 
 namespace Uow.API;
 
-public class Program
+internal class Program
 {
     public static void Main(string[] args)
     {
@@ -33,6 +33,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseMiddleware<SantitizationMiddleware>();
