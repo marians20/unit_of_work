@@ -1,4 +1,5 @@
 using Uow.API.Extensions;
+using Uow.API.Middleware;
 using Uow.Data;
 using Uow.Domain;
 
@@ -11,7 +12,9 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.RegisterData(builder.Configuration)
+        builder.Services
+            .AddHttpContextAccessor()
+            .RegisterData(builder.Configuration)
             .RegisterDomain();
 
         builder.Services.AddControllers();
@@ -32,6 +35,7 @@ public class Program
 
         app.UseAuthorization();
 
+        app.UseMiddleware<SantitizationMiddleware>();
 
         app.MapControllers();
 
