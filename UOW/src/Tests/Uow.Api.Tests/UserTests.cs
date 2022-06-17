@@ -1,23 +1,19 @@
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
-using System.Text.Json.Serialization;
 using Uow.Domain.Dtos;
 using Uow.Tests.Common;
 
 namespace Uow.Api.Tests
 {
-    public class UserTests
+    public class UserTests: ApiTestBase
     {
         [Fact]
         public async Task Test1()
         {
-            var application = new CustomWebApplicationFactory();
-            var client = application.CreateClient();
+            var userDto = new UserDto() { Email = "john.smith@gmail.com" };
 
-            var userDto = new UserDto() { Email = "marian.spoiala@gmail.com" };
-
-            var response = await client.PostAsync("User", JsonContent.Create(userDto));
+            var response = await Client.PostAsync("User", JsonContent.Create(userDto));
             response.IsSuccessStatusCode.Should().BeTrue();
 
             var body = await response.Content.ReadAsStringAsync();
@@ -27,16 +23,18 @@ namespace Uow.Api.Tests
 
             userDto.Id = createdEntityId;
 
-            response = await client.GetAsync("User");
+            response = await Client.GetAsync("User");
             body = await response.Content.ReadAsStringAsync();
 
             response.IsSuccessStatusCode.Should().BeTrue();
             response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
+            
             body.Should().NotBeNullOrEmpty();
             
-            var actualUserDto = JsonConvert.DeserializeObject<IEnumerable<UserDto>>(body);
+            var actualUsers = JsonConvert.DeserializeObject<IEnumerable<UserDto>>(body);
 
-            actualUserDto.FirstOrDefault().Should().BeEquivalentTo(userDto);
+            actualUsers.Should().NotBeNullOrEmpty();
+            actualUsers.FirstOrDefault().Should().BeEquivalentTo(userDto);
         }
     }
 }
