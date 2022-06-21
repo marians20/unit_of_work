@@ -2,6 +2,7 @@ using Uow.API.Extensions;
 using Uow.API.Middleware;
 using Uow.Data;
 using Uow.Domain;
+using Uow.API.Auth.Extensions;
 
 namespace Uow.API;
 
@@ -11,6 +12,8 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddJWTTokenServices(builder.Configuration);
+        
         // Add services to the container.
         builder.Services
             .AddHttpContextAccessor()
