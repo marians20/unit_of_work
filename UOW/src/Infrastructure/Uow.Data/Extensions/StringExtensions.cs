@@ -56,8 +56,13 @@ internal static class StringExtensions
     /// <returns></returns>
     public static string SolveSpecialFolder(this string value)
     {
+        if (string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
         var names = Enum.GetNames(typeof(Environment.SpecialFolder));
-        var values = Enum.GetValues(typeof(Environment.SpecialFolder)) as Environment.SpecialFolder[];
+        var values = (Environment.SpecialFolder[])Enum.GetValues(typeof(Environment.SpecialFolder));
         foreach (var name in names)
         {
             if (!value.Contains($"%{name}%"))

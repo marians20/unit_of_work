@@ -1,21 +1,20 @@
-﻿namespace Uow.API.Auth.Models
+﻿namespace Uow.API.Auth.Models;
+
+public class UserTokens
 {
-    public class UserTokens
-    {
-        public string Token { get; set; } = default!;
+    public string Token { get; set; } = default!;
 
-        public string UserName { get; set; } = default!;
+    public string UserName { get; set; } = default!;
 
-        public TimeSpan Validaty { get; set; }
+    public TimeSpan Validity { get; set; }
 
-        public string RefreshToken { get; set; } = default!;
+    public string RefreshToken { get; set; } = default!;
 
-        public Guid Id { get; set; }
+    public Guid Id { get; set; }
 
-        public string EmailId { get; set; } = default!;
+    public string EmailId { get; set; } = default!;
 
-        public Guid GuidId { get; set; }
+    public Guid GuidId { get; set; }
 
-        public DateTime ExpiredTime { get; set; }
-    }
+    public DateTime ExpiredTime { get; set; }
 }

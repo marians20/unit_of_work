@@ -9,43 +9,50 @@ namespace Uow.Domain.Services;
 
 public sealed class UserService : IUserService
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IHttpContextAccessor _accessor;
-    public UserService(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor accessor)
+    private readonly IMapper mapper;
+    private readonly IHttpContextAccessor accessor;
+    private readonly IRepository repository;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserService"/> class.
+    /// </summary>
+    /// <param name="mapper"></param>
+    /// <param name="accessor"></param>
+    /// <param name="repository"></param>
+    public UserService(IMapper mapper, IHttpContextAccessor accessor, IRepository repository)
     {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-        _accessor = accessor;
+        this.mapper = mapper;
+        this.accessor = accessor;
+        this.repository = repository;
     }
 
     public async Task<Guid> CreateAsync(UserDto user, CancellationToken cancellationToken)
     {
         user.Id = Guid.NewGuid();
-        var requestId = _accessor.HttpContext.Request.Headers["x-request-id"];
-        await _unitOfWork.Users.CreateAsync(_mapper.Map<User>(user));
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        var requestId = accessor.HttpContext.Request.Headers[Constants.RequestsConstants.Headers.XRequestId];
+        await repository.CreateAsync(mapper.Map<User>(user));
+        await repository.SaveChangesAsync(cancellationToken);
         return user.Id;
     }
 
     public async Task UpdateAsync(UserDto user, CancellationToken cancellationToken)
     {
-        _unitOfWork.Users.Update(_mapper.Map<User>(user));
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        repository.Update(mapper.Map<User>(user));
+        await repository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _unitOfWork.Users.DeleteAsync<User>(id, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await repository.DeleteAsync<User>(id, cancellationToken);
+        await repository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<UserDto>> AllAsync(CancellationToken cancellationToken)
     {
-        var requestId = _accessor.HttpContext.Request.GetRequestId();
-        return _mapper.Map<IEnumerable<UserDto>>(await _unitOfWork.Users.AllAsync<User>(cancellationToken));
+        var requestId = accessor.HttpContext.Request.GetRequestId();
+        return mapper.Map<IEnumerable<UserDto>>(await repository.AllAsync<User>(cancellationToken));
     }
 
     public async Task<UserDto> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
-        _mapper.Map<UserDto>(await _unitOfWork.Users.GetByIdAsync<User>(id, cancellationToken));
+        mapper.Map<UserDto>(await repository.GetByIdAsync<User>(id, cancellationToken));
 }

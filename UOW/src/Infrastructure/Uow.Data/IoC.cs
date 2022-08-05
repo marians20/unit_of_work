@@ -18,6 +18,6 @@ public static class IoC
                     a.MigrationsAssembly(typeof(UowContext).Assembly.FullName);
                 });
             })
-            .AddScoped<IGenericRepository, GenericRepository<UowContext>>()
+            .AddScoped<IRepository, Repository<UowContext>>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
 }

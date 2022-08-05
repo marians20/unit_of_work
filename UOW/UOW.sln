@@ -15,6 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uow.Data", "src\Infrastruct
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A1649642-C5F2-4DFE-B655-DADB6A096642}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -24,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uow.API", "src\ApplicationS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CCD5DF6D-ACF5-4ECF-A996-189046E57CB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uow.Api.Tests", "src\Tests\Uow.Api.Tests\Uow.Api.Tests.csproj", "{007DEFB0-532C-4B7A-9367-DE9D481B4141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uow.Api.Tests", "src\Tests\Uow.Api.Tests\Uow.Api.Tests.csproj", "{007DEFB0-532C-4B7A-9367-DE9D481B4141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uow.Tests.Common", "src\Tests\Uow.Tests.Common\Uow.Tests.Common.csproj", "{95AE0AC1-2C10-4704-996B-2D0353A09627}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uow.Tests.Common", "src\Tests\Uow.Tests.Common\Uow.Tests.Common.csproj", "{95AE0AC1-2C10-4704-996B-2D0353A09627}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

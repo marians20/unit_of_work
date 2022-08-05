@@ -32,7 +32,7 @@ public class UowContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        RegisterAllEntities<BaseEntity>(modelBuilder, typeof(BaseEntity).Assembly);
+        RegisterAllEntities<EntityBase>(modelBuilder, typeof(EntityBase).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
     }
 

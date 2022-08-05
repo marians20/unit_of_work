@@ -37,7 +37,7 @@ namespace Uow.API.Auth
                 var key = System.Text.Encoding.ASCII.GetBytes(jwtSettings.IssuerSigningKey);
                 Guid Id = Guid.Empty;
                 DateTime expireTime = DateTime.UtcNow.AddDays(1);
-                UserToken.Validaty = expireTime.TimeOfDay;
+                UserToken.Validity = expireTime.TimeOfDay;
                 var JWToken = new JwtSecurityToken(
                     issuer: jwtSettings.ValidIssuer,
                     audience: jwtSettings.ValidAudience,

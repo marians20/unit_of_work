@@ -4,18 +4,18 @@ namespace Uow.Data;
 
 public sealed class UnitOfWork : IUnitOfWork
 {
-    private readonly UowContext _context;
+    private readonly UowContext context;
 
-    private IGenericRepository? _userRepository;
+    private readonly IRepository userRepository;
 
-    public UnitOfWork(UowContext context, IGenericRepository userRepository)
+    public UnitOfWork(UowContext context, IRepository userRepository)
     {
-        _context = context;
-        Users = userRepository;
+        this.context = context;
+        Users = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
-    public IGenericRepository Users { get; }
+    public IRepository Users { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken) =>
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 }

@@ -1,9 +1,19 @@
 ﻿namespace Uow.Domain.Dtos;
 
 [Serializable]
-public sealed class UserDto
+public sealed class UserDto: DtoWithTracking
 {
-    public Guid Id { get; set; }
+    public string? Email { get; set; }
 
-    public string Email { get; set; } = default!;
+    public string? Password { get; set; }
+
+    public string? Salt { get; set; }
+
+    public DateTime? ExpirationDate { get; set; }
+
+    public bool? IsLocked { get; set; }
+
+    public bool? IsDeleted { get; set; }
+
+    public bool? IsEmailConfirmed { get; set; }
 }
