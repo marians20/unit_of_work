@@ -3,6 +3,8 @@ using Uow.API.Middleware;
 using Uow.Data;
 using Uow.Domain;
 using Uow.API.Auth.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Uow.API.Auth.Middleware;
 
 namespace Uow.API;
 
@@ -13,7 +15,9 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddJWTTokenServices(builder.Configuration);
-        
+
+        builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
+
         // Add services to the container.
         builder.Services
             .AddHttpContextAccessor()
