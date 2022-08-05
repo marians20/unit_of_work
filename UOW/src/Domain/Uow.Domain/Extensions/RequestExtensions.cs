@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace Uow.Domain.Extensions;
 
@@ -9,15 +10,14 @@ public static class RequestExtensions
 
     public static string CreateRequestIdIfNotExists(this HttpRequest request)
     {
-        if (!request.Headers.ContainsKey(Constants.RequestsConstants.Headers.XRequestId))
+        if (request.Headers.ContainsKey(Constants.RequestsConstants.Headers.XRequestId))
         {
-            var requestId = Guid.NewGuid().ToString();
-            request.Headers.Add(Constants.RequestsConstants.Headers.XRequestId, Guid.NewGuid().ToString());
-            return requestId;
+            return request.Headers[Constants.RequestsConstants.Headers.XRequestId].First();
         }
-        else
-        {
-            return request.Headers[Constants.RequestsConstants.Headers.XRequestId].ToString();
-        }
+
+        var requestId = Guid.NewGuid().ToString();
+        request.Headers.Add(Constants.RequestsConstants.Headers.XRequestId, new StringValues(requestId));
+        return requestId;
+
     }
 }

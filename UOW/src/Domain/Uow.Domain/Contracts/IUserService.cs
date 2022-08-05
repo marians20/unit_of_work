@@ -4,7 +4,7 @@ namespace Uow.Domain.Contracts;
 
 public interface IUserService
 {
-    Task<Guid> CreateAsync(UserDto user, CancellationToken cancellationToken);
+    Task<Guid> CreateAsync(UserCreateDto user, CancellationToken cancellationToken);
     Task UpdateAsync(UserDto user, CancellationToken cancellationToken);
     Task DeleteAsync(Guid id, CancellationToken cancellationToken);
     Task<IEnumerable<UserDto>> AllAsync(CancellationToken cancellationToken);

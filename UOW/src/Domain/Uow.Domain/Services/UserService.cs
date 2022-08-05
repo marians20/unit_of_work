@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Uow.Domain.Contracts;
 using Uow.Domain.Dtos;
 using Uow.Domain.Entities;
-using Uow.Domain.Extensions;
 
 namespace Uow.Domain.Services;
 
@@ -26,18 +25,18 @@ public sealed class UserService : IUserService
         this.repository = repository;
     }
 
-    public async Task<Guid> CreateAsync(UserDto user, CancellationToken cancellationToken)
+    public async Task<Guid> CreateAsync(UserCreateDto user, CancellationToken cancellationToken)
     {
-        user.Id = Guid.NewGuid();
-        var requestId = accessor.HttpContext.Request.Headers[Constants.RequestsConstants.Headers.XRequestId];
-        await repository.CreateAsync(mapper.Map<User>(user));
+        var userEntity = mapper.Map<User>(user);
+        userEntity.Id = Guid.NewGuid();
+        await repository.CreateAsync(AddCreationTrackingInfo(userEntity));
         await repository.SaveChangesAsync(cancellationToken);
-        return user.Id;
+        return userEntity.Id;
     }
 
     public async Task UpdateAsync(UserDto user, CancellationToken cancellationToken)
     {
-        repository.Update(mapper.Map<User>(user));
+        repository.Update(AddUpdatingTrackingInfo(mapper.Map<User>(user)));
         await repository.SaveChangesAsync(cancellationToken);
     }
 
@@ -47,12 +46,35 @@ public sealed class UserService : IUserService
         await repository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<UserDto>> AllAsync(CancellationToken cancellationToken)
-    {
-        var requestId = accessor.HttpContext.Request.GetRequestId();
-        return mapper.Map<IEnumerable<UserDto>>(await repository.AllAsync<User>(cancellationToken));
-    }
+    public async Task<IEnumerable<UserDto>> AllAsync(CancellationToken cancellationToken) =>
+        mapper.Map<IEnumerable<UserDto>>(await repository.AllAsync<User>(cancellationToken));
 
     public async Task<UserDto> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
         mapper.Map<UserDto>(await repository.GetByIdAsync<User>(id, cancellationToken));
+
+    private T AddCreationTrackingInfo<T>(T entity) where T: EntityWithTracking
+    {
+        if (accessor.HttpContext.User.Claims.Any(claim => claim.Type.Equals(Constants.Claims.Id)))
+        {
+            entity.CreatedBy = new Guid(accessor.HttpContext.User.Claims
+                .First(claim => claim.Type.Equals(Constants.Claims.Id)).Value);
+        }
+
+        entity.CreationDate = DateTime.Now;
+
+        return entity;
+    }
+
+    private T AddUpdatingTrackingInfo<T>(T entity) where T : EntityWithTracking
+    {
+        if (accessor.HttpContext.User.Claims.Any(claim => claim.Type.Equals(Constants.Claims.Id)))
+        {
+            entity.ModifiedBy = new Guid(accessor.HttpContext.User.Claims
+                .First(claim => claim.Type.Equals(Constants.Claims.Id)).Value);
+        }
+
+        entity.ModifiedDate = DateTime.Now;
+
+        return entity;
+    }
 }

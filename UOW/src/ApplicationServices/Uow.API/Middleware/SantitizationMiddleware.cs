@@ -19,7 +19,7 @@ internal class SantitizationMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         AdoptClientCulture(context);
-        var requestId = context.Request.CreateRequestIdIfNotExists();
+        _ = context.Request.CreateRequestIdIfNotExists();
         var userEmail = context.User.Claims
             .FirstOrDefault(c => c.Type.Contains(Constants.Claims.Email, StringComparison.OrdinalIgnoreCase))?.Value;
 
@@ -27,13 +27,14 @@ internal class SantitizationMiddleware
             .FirstOrDefault(c => c.Type.Contains(Constants.Claims.Id, StringComparison.OrdinalIgnoreCase))?.Value;
 
         logger.LogInformation("{Date:G}|{id}|{email}|{Url}", DateTime.Now, userId, userEmail, context.Request.GetDisplayUrl());
+
         // Call the next delegate/middleware in the pipeline.
         await next(context);
     }
 
     private static void AdoptClientCulture(HttpContext context)
     {
-        var cultureQuery = context.Request.Query[Constants.RequestsConstants.Headers.Culture];
+        var cultureQuery = context.Request.Query[Constants.RequestsConstants.Headers.Culture].FirstOrDefault();
         if (string.IsNullOrWhiteSpace(cultureQuery))
         {
             return;

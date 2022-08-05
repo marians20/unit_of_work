@@ -24,7 +24,7 @@ public class User : ControllerBase
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<Guid>> Create(UserDto user, CancellationToken cancellationToken) =>
+    public async Task<ActionResult<Guid>> Create(UserCreateDto user, CancellationToken cancellationToken) =>
         Ok(await _service.CreateAsync(user, cancellationToken));
 
     /// <summary>
