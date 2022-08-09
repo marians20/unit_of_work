@@ -1,4 +1,7 @@
-﻿using Uow.Domain.Contracts;
+﻿// <copyright file="UnitOfWork.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+using Uow.Domain.Contracts;
 
 namespace Uow.Data;
 

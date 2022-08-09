@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// <copyright file="DiConfiguration.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Uow.Data.Extensions;
@@ -6,7 +10,10 @@ using Uow.Domain.Contracts;
 
 namespace Uow.Data;
 
-public static class IoC
+/// <summary>
+/// DiConfiguration
+/// </summary>
+public static class DiConfiguration
 {
     public static IServiceCollection RegisterData(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<UowContext>(opts =>

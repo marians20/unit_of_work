@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿// <copyright file="UowContext.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
 using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +12,7 @@ namespace Uow.Data;
 
 public class UowContext : DbContext
 {
-    public UowContext(DbContextOptions options) : base(options)
-    {
-        EnsureThatDatabaseDirectoryIsCreated();
-    }
+    public UowContext(DbContextOptions options) : base(options) => EnsureThatDatabaseDirectoryIsCreated();
 
     private void EnsureThatDatabaseDirectoryIsCreated()
     {
@@ -36,11 +36,9 @@ public class UowContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
     }
 
-    private static void RegisterAllEntities<TBase>(ModelBuilder modelBuilder, params Assembly[] assemblies)
-    {
+    private static void RegisterAllEntities<TBase>(ModelBuilder modelBuilder, params Assembly[] assemblies) =>
         assemblies.SelectMany(a => a.GetExportedTypes())
             .Where(c => c.IsClass && !c.IsAbstract && c.IsPublic && typeof(TBase).IsAssignableFrom(c))
             .ToList()
             .ForEach(type => modelBuilder.Entity(type));
-    }
 }

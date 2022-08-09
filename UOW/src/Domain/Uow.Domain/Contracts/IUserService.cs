@@ -1,4 +1,7 @@
-﻿using Uow.Domain.Dtos;
+﻿// <copyright file="IUserService.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+using Uow.Domain.Dtos;
 
 namespace Uow.Domain.Contracts;
 

@@ -1,4 +1,7 @@
-﻿namespace Uow.Data.Extensions;
+﻿// <copyright file="StringExtensions.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+namespace Uow.Data.Extensions;
 
 internal static class StringExtensions
 {
