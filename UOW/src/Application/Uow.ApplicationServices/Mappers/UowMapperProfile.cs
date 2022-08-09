@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿// <copyright file="UowMapperProfile.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+using AutoMapper;
 using Uow.ApplicationServices.Cryptography;
 using Uow.Domain.Entities;
 using Uow.PrimaryPorts.Dtos;

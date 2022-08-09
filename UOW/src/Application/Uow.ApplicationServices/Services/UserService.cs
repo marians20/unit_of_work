@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿// <copyright file="UserService.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Uow.Domain.Entities;
 using Uow.Domain.Exceptions;
@@ -53,24 +57,19 @@ public sealed class UserService : ServiceBase, IUserService
         var user = await Task.FromResult(Repository.Query<User>(u => u.Id == id, usr => usr.Roles).SingleOrDefault())
             .ConfigureAwait(false);
 
+        EnsureEntityExists(user);
         return Mapper.Map<UserDto>(user);
     }
 
     public async Task AssignRole(Guid userId, Guid roleId, CancellationToken cancellationToken)
     {
         var user = await Repository.GetByIdAsync<User>(userId, cancellationToken).ConfigureAwait(false);
-        if (user == null)
-        {
-            throw new EntityNotFoundException(nameof(User));
-        }
+        EnsureEntityExists(user);
 
         var role = await Repository.GetByIdAsync<Role>(roleId, cancellationToken).ConfigureAwait(false);
-        if (role == null)
-        {
-            throw new EntityNotFoundException(nameof(Role));
-        }
+        EnsureEntityExists(role);
 
-        user.Roles.Add(role);
+        user!.Roles.Add(role!);
 
         await Repository.SaveChangesAsync(cancellationToken);
     }
@@ -78,12 +77,9 @@ public sealed class UserService : ServiceBase, IUserService
     public async Task RevokeRole(Guid userId, Guid roleId, CancellationToken cancellationToken)
     {
         var user = Repository.Query<User>(u => u.Id == userId, usr => usr.Roles).SingleOrDefault();
-        if (user == null)
-        {
-            throw new EntityNotFoundException(nameof(User));
-        }
+        EnsureEntityExists(user);
 
-        if (user.Roles.All(r => r.Id != roleId))
+        if (user!.Roles.All(r => r.Id != roleId))
         {
             throw new EntityNotFoundException(nameof(Role));
         }
@@ -97,11 +93,7 @@ public sealed class UserService : ServiceBase, IUserService
         var user = await Task.FromResult(Repository.Query<User>(u => u.Id == userId, usr => usr.Roles).SingleOrDefault())
             .ConfigureAwait(false);
 
-        if (user == null)
-        {
-            throw new EntityNotFoundException(nameof(User));
-        }
-
-        return Mapper.Map<IEnumerable<RoleDto>>(user.Roles);
+        EnsureEntityExists(user);
+        return Mapper.Map<IEnumerable<RoleDto>>(user!.Roles);
     }
 }

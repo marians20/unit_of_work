@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="UserLogin.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+using System.ComponentModel.DataAnnotations;
 namespace Uow.API.Auth.Models;
 
 public class UserLogin

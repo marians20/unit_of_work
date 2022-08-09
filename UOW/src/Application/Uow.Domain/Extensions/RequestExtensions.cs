@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿// <copyright file="RequestExtensions.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
 namespace Uow.Domain.Extensions;

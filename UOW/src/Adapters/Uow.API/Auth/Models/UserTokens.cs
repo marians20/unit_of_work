@@ -1,4 +1,7 @@
-﻿namespace Uow.API.Auth.Models;
+﻿// <copyright file="UserTokens.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+namespace Uow.API.Auth.Models;
 
 public class UserTokens
 {

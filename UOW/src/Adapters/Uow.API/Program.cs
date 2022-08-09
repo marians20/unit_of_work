@@ -1,10 +1,12 @@
+// <copyright file="Program.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
 using Uow.API.Extensions;
 using Uow.API.Middleware;
 using Uow.API.Auth.Extensions;
-using Microsoft.AspNetCore.Authorization;
-using Uow.API.Auth.Middleware;
+using Uow.API.Filters;
 using Uow.Application.Bootstrap;
-using Uow.ApplicationServices;
 using Uow.Data;
 
 namespace Uow.API;
@@ -15,9 +17,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddJWTTokenServices(builder.Configuration);
-
-        builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
+        builder.Services.AddJwtTokenServices(builder.Configuration);
 
         // Add services to the container.
         builder.Services
@@ -25,7 +25,12 @@ public class Program
             .RegisterData(builder.Configuration)
             .RegisterDomain();
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(options =>
+        {
+            options.Filters.Add<ExceptionFilter>();
+            options.Filters.Add<ModelValidationErrorHandlerFilter>();
+        });
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwagger();

@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿// <copyright file="DiConfiguration.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
+using Microsoft.Extensions.DependencyInjection;
 using Uow.ApplicationServices.Mappers;
 using Uow.ApplicationServices.Services;
 using Uow.PrimaryPorts;

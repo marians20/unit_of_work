@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿// <copyright file="AccountController.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Uow.API.Auth.Models;
 
@@ -37,7 +41,7 @@ public class AccountController : ControllerBase
         }
 
         var user = Logins.First(UserByNameAndPasswordPredicate(userLogin.UserName, userLogin.Password));
-        var userTokens = JwtHelpers.GenTokenkey(new UserTokens()
+        var userTokens = JwtHelpers.GenTokenKey(new UserTokens()
         {
             EmailId = user.EmailId,
             GuidId = Guid.NewGuid(),

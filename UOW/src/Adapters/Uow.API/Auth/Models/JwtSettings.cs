@@ -1,21 +1,24 @@
-﻿namespace Uow.API.Auth.Models
+﻿// <copyright file="JwtSettings.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
+namespace Uow.API.Auth.Models;
+
+public class JwtSettings
 {
-    public class JwtSettings
-    {
-        public bool ValidateIssuerSigningKey { get; set; }
+    public bool ValidateIssuerSigningKey { get; set; }
 
-        public string IssuerSigningKey { get; set; } = default!;
+    public string IssuerSigningKey { get; set; } = default!;
 
-        public bool ValidateIssuer { get; set; } = true;
+    public bool ValidateIssuer { get; set; } = true;
 
-        public string ValidIssuer { get; set; } = default!;
+    public string ValidIssuer { get; set; } = default!;
 
-        public bool ValidateAudience { get; set; } = true;
+    public bool ValidateAudience { get; set; } = true;
 
-        public string ValidAudience { get; set; } = default!;
+    public string ValidAudience { get; set; } = default!;
 
-        public bool RequireExpirationTime { get; set; }
+    public bool RequireExpirationTime { get; set; }
 
-        public bool ValidateLifetime { get; set; } = true;
-    }
+    public bool ValidateLifetime { get; set; } = true;
 }

@@ -1,61 +1,53 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿// <copyright file="JwtHelpers.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Uow.API.Auth.Models;
 
-namespace Uow.API.Auth
+namespace Uow.API.Auth;
+
+public static class JwtHelpers
 {
-    public static class JwtHelpers
+    public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, Guid id) =>
+        new Claim[] {
+            new("Id", userAccounts.Id.ToString()),
+            new(ClaimTypes.Name, userAccounts.UserName),
+            new(ClaimTypes.Email, userAccounts.EmailId),
+            new(ClaimTypes.NameIdentifier, id.ToString()),
+            new(ClaimTypes.Expiration, DateTime.UtcNow.AddDays(1).ToString("MMM ddd dd yyyy HH:mm:ss tt"))
+        };
+
+    public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, out Guid id)
     {
-        public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, Guid Id)
+        id = Guid.NewGuid();
+        return GetClaims(userAccounts, id);
+    }
+    public static UserTokens GenTokenKey(UserTokens model, JwtSettings jwtSettings)
+    {
+        var userToken = new UserTokens();
+        if (model == null)
         {
-            IEnumerable<Claim> claims = new Claim[] {
-                new Claim("Id", userAccounts.Id.ToString()),
-                    new Claim(ClaimTypes.Name, userAccounts.UserName),
-                    new Claim(ClaimTypes.Email, userAccounts.EmailId),
-                    new Claim(ClaimTypes.NameIdentifier, Id.ToString()),
-                    new Claim(ClaimTypes.Expiration, DateTime.UtcNow.AddDays(1).ToString("MMM ddd dd yyyy HH:mm:ss tt"))
-            };
-            return claims;
+            throw new ArgumentException(nameof(model));
         }
-        public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, out Guid Id)
-        {
-            Id = Guid.NewGuid();
-            return GetClaims(userAccounts, Id);
-        }
-        public static UserTokens GenTokenkey(UserTokens model, JwtSettings jwtSettings)
-        {
-            try
-            {
-                var UserToken = new UserTokens();
-                if (model == null)
-                {
-                    throw new ArgumentException(nameof(model));
-                }
 
-                // Get secret key
-                var key = System.Text.Encoding.ASCII.GetBytes(jwtSettings.IssuerSigningKey);
-                Guid Id = Guid.Empty;
-                DateTime expireTime = DateTime.UtcNow.AddDays(1);
-                UserToken.Validity = expireTime.TimeOfDay;
-                var JWToken = new JwtSecurityToken(
-                    issuer: jwtSettings.ValidIssuer,
-                    audience: jwtSettings.ValidAudience,
-                    claims: GetClaims(model, out Id),
-                    notBefore: new DateTimeOffset(DateTime.Now).DateTime,
-                    expires: new DateTimeOffset(expireTime).DateTime,
-                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256));
+        // Get secret key
+        var key = System.Text.Encoding.ASCII.GetBytes(jwtSettings.IssuerSigningKey);
+        var expireTime = DateTime.UtcNow.AddDays(1);
+        userToken.Validity = expireTime.TimeOfDay;
+        var jwToken = new JwtSecurityToken(
+            issuer: jwtSettings.ValidIssuer,
+            audience: jwtSettings.ValidAudience,
+            claims: GetClaims(model, out var id),
+            notBefore: new DateTimeOffset(DateTime.Now).DateTime,
+            expires: new DateTimeOffset(expireTime).DateTime,
+            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256));
 
-                UserToken.Token = new JwtSecurityTokenHandler().WriteToken(JWToken);
-                UserToken.UserName = model.UserName;
-                UserToken.Id = model.Id;
-                UserToken.GuidId = Id;
-                return UserToken;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        userToken.Token = new JwtSecurityTokenHandler().WriteToken(jwToken);
+        userToken.UserName = model.UserName;
+        userToken.Id = model.Id;
+        userToken.GuidId = id;
+        return userToken;
     }
 }

@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿// <copyright file="SwaggerExtensions.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
+using System.Reflection;
 
 namespace Uow.API.Extensions;
 

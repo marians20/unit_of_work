@@ -1,4 +1,7 @@
-﻿namespace Uow.Domain.Entities;
+﻿// <copyright file="User.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+namespace Uow.Domain.Entities;
 
 public class User : EntityWithTracking
 {

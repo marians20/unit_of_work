@@ -1,10 +1,11 @@
-﻿// <copyright file="Repository.cs" company="Microsoft">
+﻿// <copyright file="ServiceBase.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Uow.Domain;
+using Uow.Domain.Exceptions;
 using Uow.SecondaryPorts;
 
 namespace Uow.ApplicationServices.Services;
@@ -27,4 +28,12 @@ public abstract class ServiceBase
         userId ??= Accessor.HttpContext.User.Claims.Any(claim => claim.Type.Equals(Constants.Claims.Id))
             ? new Guid(Accessor.HttpContext.User.Claims.First(claim => claim.Type.Equals(Constants.Claims.Id)).Value)
             : null;
+
+    protected static void EnsureEntityExists<T>(T entity)
+    {
+        if (entity == null)
+        {
+            throw new EntityNotFoundException(nameof(T));
+        }
+    }
 }

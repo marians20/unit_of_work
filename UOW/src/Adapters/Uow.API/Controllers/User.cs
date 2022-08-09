@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// <copyright file="User.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+using Microsoft.AspNetCore.Mvc;
 using Uow.PrimaryPorts;
 using Uow.PrimaryPorts.Dtos;
 

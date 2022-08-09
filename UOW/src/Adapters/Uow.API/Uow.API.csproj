@@ -30,4 +30,8 @@
 	  <ProjectReference Include="..\Uow.Data\Uow.Data.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Auth\Middleware\" />
+	</ItemGroup>
+
 </Project>

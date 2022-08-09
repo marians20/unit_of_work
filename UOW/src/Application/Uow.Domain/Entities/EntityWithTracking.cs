@@ -1,4 +1,4 @@
-﻿// <copyright file="Repository.cs" company="Microsoft">
+﻿// <copyright file="EntityWithTracking.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 

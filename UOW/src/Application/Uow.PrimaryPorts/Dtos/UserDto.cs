@@ -1,4 +1,7 @@
-﻿namespace Uow.PrimaryPorts.Dtos;
+﻿// <copyright file="UserDto.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+namespace Uow.PrimaryPorts.Dtos;
 
 [Serializable]
 public sealed class UserDto: DtoWithTracking

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿// <copyright file="SantitizationMiddleware.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+
+using Microsoft.AspNetCore.Http.Extensions;
 using System.Globalization;
 using Uow.Domain;
 using Uow.Domain.Extensions;
