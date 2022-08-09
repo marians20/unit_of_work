@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uow.Sdk.PrimaryPorts\Uow.Sdk.PrimaryPorts.csproj" />
+    <ProjectReference Include="..\Uow.Sdk.SecondaryPorts\Uow.Sdk.SecondaryPorts.csproj" />
+  </ItemGroup>
+
+</Project>

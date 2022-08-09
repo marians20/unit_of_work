@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
-using Uow.Domain.Dtos;
+using Uow.PrimaryPorts.Dtos;
 using Uow.Tests.Common;
 // ReSharper disable PossibleMultipleEnumeration
 #pragma warning disable CS8604 // Possible null reference argument.

@@ -22,7 +22,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\ApplicationServices\Uow.API\Uow.API.csproj" />
 		<ProjectReference Include="..\Uow.Tests.Common\Uow.Tests.Common.csproj" />
 	</ItemGroup>
 
