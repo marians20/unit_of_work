@@ -35,6 +35,12 @@ public class Role : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Deletes a role
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {

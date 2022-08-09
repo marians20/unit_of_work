@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Uow.Domain.Contracts;
 using Uow.Domain.Dtos;
 using Uow.Domain.Entities;
+using Uow.Domain.Exceptions;
 
 namespace Uow.Domain.Services;
 
@@ -46,6 +47,60 @@ public sealed class UserService : ServiceBase, IUserService
     public async Task<IEnumerable<UserDto>> AllAsync(CancellationToken cancellationToken) =>
         Mapper.Map<IEnumerable<UserDto>>(await Repository.AllAsync<User>(cancellationToken));
 
-    public async Task<UserDto> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
-        Mapper.Map<UserDto>(await Repository.GetByIdAsync<User>(id, cancellationToken));
+    public async Task<UserDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var user = await Task.FromResult(Repository.Query<User>(u => u.Id == id, usr => usr.Roles).SingleOrDefault())
+            .ConfigureAwait(false);
+
+        return Mapper.Map<UserDto>(user);
+    }
+
+    public async Task AssignRole(Guid userId, Guid roleId, CancellationToken cancellationToken)
+    {
+        var user = await Repository.GetByIdAsync<User>(userId, cancellationToken).ConfigureAwait(false);
+        if (user == null)
+        {
+            throw new EntityNotFoundException(nameof(User));
+        }
+
+        var role = await Repository.GetByIdAsync<Role>(roleId, cancellationToken).ConfigureAwait(false);
+        if (role == null)
+        {
+            throw new EntityNotFoundException(nameof(Role));
+        }
+
+        user.Roles.Add(role);
+
+        await Repository.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task RevokeRole(Guid userId, Guid roleId, CancellationToken cancellationToken)
+    {
+        var user = Repository.Query<User>(u => u.Id == userId, usr => usr.Roles).SingleOrDefault();
+        if (user == null)
+        {
+            throw new EntityNotFoundException(nameof(User));
+        }
+
+        if (user.Roles.All(r => r.Id != roleId))
+        {
+            throw new EntityNotFoundException(nameof(Role));
+        }
+
+        user.Roles.Remove(user.Roles.SingleOrDefault(r => r.Id != roleId)!);
+        await Repository.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<RoleDto>> GetUserRolesAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var user = await Task.FromResult(Repository.Query<User>(u => u.Id == userId, usr => usr.Roles).SingleOrDefault())
+            .ConfigureAwait(false);
+
+        if (user == null)
+        {
+            throw new EntityNotFoundException(nameof(User));
+        }
+
+        return Mapper.Map<IEnumerable<RoleDto>>(user.Roles);
+    }
 }

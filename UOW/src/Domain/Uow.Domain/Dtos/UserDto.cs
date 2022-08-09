@@ -16,4 +16,6 @@ public sealed class UserDto: DtoWithTracking
     public bool? IsDeleted { get; set; }
 
     public bool? IsEmailConfirmed { get; set; }
+
+    public IEnumerable<RoleDto>? Roles { get; set; }
 }
