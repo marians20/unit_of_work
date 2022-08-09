@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Uow.Data;
 
@@ -10,41 +11,13 @@ using Uow.Data;
 namespace Uow.Data.Migrations
 {
     [DbContext(typeof(UowContext))]
-    partial class UowContextModelSnapshot : ModelSnapshot
+    [Migration("20220809030359_Added many to many relationsheep between user and role")]
+    partial class Addedmanytomanyrelationsheepbetweenuserandrole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
-
-            modelBuilder.Entity("Uow.Domain.Dtos.RoleDto", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RoleDto");
-                });
 
             modelBuilder.Entity("Uow.Domain.Dtos.UserDto", b =>
                 {
@@ -96,20 +69,8 @@ namespace Uow.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

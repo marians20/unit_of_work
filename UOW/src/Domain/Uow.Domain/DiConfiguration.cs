@@ -8,6 +8,8 @@ namespace Uow.Domain;
 public static class DiConfiguration
 {
     public static IServiceCollection RegisterDomain(this IServiceCollection services) =>
-        services.AddAutoMapper(typeof(UowMapperProfile))
-            .AddScoped<IUserService, UserService>();
+        services
+            .AddAutoMapper(typeof(UowMapperProfile))
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IRoleService, RoleService>();
 }

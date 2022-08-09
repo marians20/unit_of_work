@@ -15,4 +15,8 @@ public class User : EntityWithTracking
     public bool IsDeleted { get; set; } = false;
 
     public bool IsEmailConfirmed { get; set; } = false;
+
+    public ICollection<Role> Roles { get; set; } = new HashSet<Role>();
+
+    public ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Uow.Data;
 
@@ -10,9 +11,10 @@ using Uow.Data;
 namespace Uow.Data.Migrations
 {
     [DbContext(typeof(UowContext))]
-    partial class UowContextModelSnapshot : ModelSnapshot
+    [Migration("20220809033849_Added tracking to roles.")]
+    partial class Addedtrackingtoroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");

@@ -6,32 +6,32 @@ namespace Uow.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class User : ControllerBase
+public class Role : ControllerBase
 {
-    private readonly IUserService service;
+    private readonly IRoleService service;
 
-    public User(IUserService service) => this.service = service;
+    public Role(IRoleService service) => this.service = service;
 
     /// <summary>
-    /// Creates a new  user
+    /// Creates a new role
     /// </summary>
-    /// <param name="user"></param>
+    /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<Guid>> Create(UserCreateDto user, CancellationToken cancellationToken) =>
-        Ok(await service.CreateAsync(user, cancellationToken));
+    public async Task<ActionResult<Guid>> Create(RoleCreateDto role, CancellationToken cancellationToken) =>
+        Ok(await service.CreateAsync(role, cancellationToken));
 
     /// <summary>
-    /// Updates a user
+    /// Updates a role
     /// </summary>
-    /// <param name="user"></param>
+    /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPut]
-    public async Task<ActionResult<Guid>> Update(UserDto user, CancellationToken cancellationToken)
+    public async Task<ActionResult<Guid>> Update(RoleDto role, CancellationToken cancellationToken)
     {
-        await service.UpdateAsync(user, cancellationToken);
+        await service.UpdateAsync(role, cancellationToken);
         return Ok();
     }
 
@@ -43,18 +43,18 @@ public class User : ControllerBase
     }
 
     /// <summary>
-    /// Retrieves all users
+    /// Retrieves all roles
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<UserDto>>> All(CancellationToken cancellationToken) =>
+    public async Task<ActionResult<IEnumerable<RoleDto>>> All(CancellationToken cancellationToken) =>
         Ok(await service.AllAsync(cancellationToken));
 
     /// <summary>
-    /// Gets user by id
+    /// Gets role by id
     /// </summary>
     /// <param name="id"></param>
     /// <param name="cancellationToken"></param>

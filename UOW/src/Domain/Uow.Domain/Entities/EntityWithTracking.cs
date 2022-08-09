@@ -13,4 +13,16 @@ public abstract class EntityWithTracking : EntityBase
     public DateTime? ModifiedDate { get; set; }
 
     public Guid? ModifiedBy { get; set; }
+
+    public void AddCreationTrackingInfo(Guid? userId)
+    {
+        CreatedBy = userId;
+        CreationDate = DateTime.Now;
+    }
+
+    public void AddUpdatingTrackingInfo(Guid? userId)
+    {
+        ModifiedBy = userId;
+        ModifiedDate = DateTime.Now;
+    }
 }
