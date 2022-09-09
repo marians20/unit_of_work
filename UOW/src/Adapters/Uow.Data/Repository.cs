@@ -4,6 +4,8 @@
 
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Uow.Domain.Entities;
+using Uow.Domain.Extensions;
 using Uow.SecondaryPorts;
 
 namespace Uow.Data;
@@ -22,15 +24,15 @@ internal class Repository<TContext> : IRepository where TContext : DbContext
     /// <param name="context"></param>
     public Repository(TContext context) => this.context = context;
 
-    /// <inherritdoc />
+    /// <inheritdoc />
     public async Task CreateAsync<T>(T entity) where T : class =>
         await Set<T>().AddAsync(entity).ConfigureAwait(false);
 
-    /// <inherritdoc />
+    /// <inheritdoc />
     public void Update<T>(T entity) where T : class =>
         context.Entry(entity).State = EntityState.Modified;
 
-    /// <inherritdoc />
+    /// <inheritdoc />
     public async Task DeleteAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : class
     {
         var entity = await GetByIdAsync<T>(id, cancellationToken).ConfigureAwait(false);
@@ -42,33 +44,63 @@ internal class Repository<TContext> : IRepository where TContext : DbContext
         Set<T>().Remove(entity);
     }
 
-    /// <inherritdoc />
+    /// <inheritdoc />
+    public void Delete<T>(T? entity) where T : class
+    {
+        if (entity is null)
+        {
+            return;
+        }
+
+        Set<T>().Remove(entity);
+    }
+
+    /// <inheritdoc />
+    public void DeleteRange<T>(IEnumerable<T> entities) where T : class
+    {
+        Set<T>().RemoveRange(entities);
+    }
+
+    /// <inheritdoc />
     public async Task<IEnumerable<T>> AllAsync<T>(CancellationToken cancellationToken = default) where T : class =>
-        await Set<T>().ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        typeof(T).IsSoftDeletable()
+            ? await Set<T>().Where(e => !((ISoftDeletableEntity)e).IsDeleted).ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false)
+            : await Set<T>().ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
-    /// <inherritdoc />
-    public async Task<T?> GetByIdAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : class =>
-        await Set<T>().FindAsync(new object?[] { id }, cancellationToken: cancellationToken).ConfigureAwait(false);
+    /// <inheritdoc />
+    public async Task<T?> GetByIdAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : class
+    {
+        var entity = await Set<T>().FindAsync(new object?[] { id }, cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
-    /// <inherritdoc />
+        return entity.IsDeleted() ? null : entity;
+    }
+
+    /// <inheritdoc />
     public async Task<bool> AnyAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) where T : class =>
         await Set<T>().AnyAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-    /// <inherritdoc />
+    /// <inheritdoc />
     public IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate) where T : class =>
         Set<T>().Where(predicate);
 
-    /// <inherritdoc />
+    /// <inheritdoc />
     public IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeExpressions) where T : class =>
         includeExpressions.Aggregate(
             Set<T>().Where(predicate),
             (current, includeExpression) => current.Include(includeExpression));
 
-    /// <inherritdoc />
+    /// <inheritdoc />
+    public IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate, params string[] includePaths) where T : class =>
+        includePaths.Aggregate(
+            Set<T>().Where(predicate),
+            (current, includeExpression) => current.Include(includeExpression));
+
+    /// <inheritdoc />
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
         await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-    /// <inherritdoc />
+    /// <inheritdoc />
     public async Task ExecuteWithinTransactionAsync(Action action, CancellationToken cancellationToken = default!)
     {
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
@@ -76,7 +108,7 @@ internal class Repository<TContext> : IRepository where TContext : DbContext
         await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    /// <inherritdoc />
+    /// <inheritdoc />
     public async Task<T> ExecuteWithinTransactionAsync<T>(Func<Task<T>> func, CancellationToken cancellationToken = default!)
     {
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);

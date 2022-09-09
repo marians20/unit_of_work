@@ -25,6 +25,5 @@ public static class DiConfiguration
                     a.MigrationsAssembly(typeof(UowContext).Assembly.FullName);
                 });
             })
-            .AddScoped<IRepository, Repository<UowContext>>()
-            .AddScoped<IUnitOfWork, UnitOfWork>();
+            .AddScoped<IRepository, Repository<UowContext>>();
 }

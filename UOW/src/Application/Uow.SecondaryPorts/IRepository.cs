@@ -36,6 +36,21 @@ public interface IRepository
     Task DeleteAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : class;
 
     /// <summary>
+    /// Deletes an entity
+    /// </summary>
+    /// <typeparam name="T">entity type</typeparam>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    void Delete<T>(T? entity) where T : class;
+
+    /// <summary>
+    /// Deletes a collection of entities
+    /// </summary>
+    /// <typeparam name="T">entity type </typeparam>
+    /// <param name="entities"></param>
+    void DeleteRange<T>(IEnumerable<T> entities) where T : class;
+
+    /// <summary>
     /// Gets all entities
     /// </summary>
     /// <typeparam name="T">entity type</typeparam>
@@ -77,6 +92,16 @@ public interface IRepository
     /// <param name="includeExpressions"></param>
     /// <returns></returns>
     IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeExpressions)
+        where T : class;
+
+    /// <summary>
+    /// Gets an IQueryable including referenced entities
+    /// </summary>
+    /// <typeparam name="T">entity type</typeparam>
+    /// <param name="predicate"></param>
+    /// <param name="includePaths"></param>
+    /// <returns></returns>
+    IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate, params string[] includePaths)
         where T : class;
 
     /// <summary>
