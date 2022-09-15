@@ -52,14 +52,8 @@ public sealed class UserService : ServiceBase, IUserService
     public async Task<IEnumerable<UserDto>> AllAsync(CancellationToken cancellationToken) =>
         Mapper.Map<IEnumerable<UserDto>>(await Repository.AllAsync<User>(cancellationToken));
 
-    public async Task<UserDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-    {
-        var user = await Task.FromResult(Repository.Query<User>(u => u.Id == id, usr => usr.Roles).SingleOrDefault())
-            .ConfigureAwait(false);
-
-        EnsureEntityExists(user);
-        return Mapper.Map<UserDto>(user);
-    }
+    public async Task<UserDto> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
+        await Task.FromResult(Mapper.Map<UserDto>(GetEntityById(id))).ConfigureAwait(false);
 
     public async Task AssignRole(Guid userId, Guid roleId, CancellationToken cancellationToken)
     {
@@ -95,5 +89,15 @@ public sealed class UserService : ServiceBase, IUserService
 
         EnsureEntityExists(user);
         return Mapper.Map<IEnumerable<RoleDto>>(user!.Roles);
+    }
+
+    public bool IsAdmin(Guid userId) => GetEntityById(userId).IsAdmin;
+
+    private User GetEntityById(Guid id)
+    {
+        var user = Repository.Query<User>(u => u.Id == id, usr => usr.Roles).SingleOrDefault();
+
+        EnsureEntityExists(user);
+        return user!;
     }
 }

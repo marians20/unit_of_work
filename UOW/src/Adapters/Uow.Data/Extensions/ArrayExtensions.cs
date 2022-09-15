@@ -5,11 +5,17 @@ namespace Uow.Data.Extensions;
 
 internal static class ArrayExtensions
 {
-    public static int IndexOf(this string[] value, string find)
+    /// <summary>
+    /// Returns index of string within strings array or -1 if not exists.
+    /// </summary>
+    /// <param name="strings"></param>
+    /// <param name="string"></param>
+    /// <returns></returns>
+    public static int IndexOf(this string[] strings, string @string)
     {
-        for (var i = 0; i < value.Length; i++)
+        for (var i = 0; i < strings.Length; i++)
         {
-            if (value[i].Equals(find))
+            if (strings[i].Equals(@string))
             {
                 return i;
             }

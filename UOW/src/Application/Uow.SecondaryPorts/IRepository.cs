@@ -65,7 +65,7 @@ public interface IRepository
     /// <param name="id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<T?> GetByIdAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : class;
+    Task<T?> GetByIdAsync<T>(object id, CancellationToken cancellationToken = default) where T : class;
 
     /// <summary>
     /// Checks if exists any entity

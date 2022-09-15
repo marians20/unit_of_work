@@ -56,10 +56,7 @@ internal class Repository<TContext> : IRepository where TContext : DbContext
     }
 
     /// <inheritdoc />
-    public void DeleteRange<T>(IEnumerable<T> entities) where T : class
-    {
-        Set<T>().RemoveRange(entities);
-    }
+    public void DeleteRange<T>(IEnumerable<T> entities) where T : class => Set<T>().RemoveRange(entities);
 
     /// <inheritdoc />
     public async Task<IEnumerable<T>> AllAsync<T>(CancellationToken cancellationToken = default) where T : class =>
@@ -68,9 +65,9 @@ internal class Repository<TContext> : IRepository where TContext : DbContext
             : await Set<T>().ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
     /// <inheritdoc />
-    public async Task<T?> GetByIdAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : class
+    public async Task<T?> GetByIdAsync<T>(object id, CancellationToken cancellationToken = default) where T : class
     {
-        var entity = await Set<T>().FindAsync(new object?[] { id }, cancellationToken: cancellationToken)
+        var entity = await Set<T>().FindAsync(new[] { id }, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         return entity.IsDeleted() ? null : entity;
