@@ -5,11 +5,11 @@
 using Uow.API.Extensions;
 using Uow.API.Middleware;
 using Uow.API.Auth.Extensions;
+using Uow.API.Auth.Services;
 using Uow.API.Filters;
 using Uow.API.Services;
 using Uow.Application.Bootstrap;
 using Uow.ApplicationServices;
-using Uow.ApplicationServices.Services;
 using Uow.Data;
 using Uow.PrimaryPorts;
 
@@ -26,6 +26,7 @@ public class Program
         // Add services to the container.
         builder.Services
             .AddHttpContextAccessor()
+            .AddTransient<IAuthService, AuthService>()
             .AddTransient<IUserResolverService, UserResolverService>()
             .RegisterData(builder.Configuration)
             .RegisterDomain();
