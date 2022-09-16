@@ -28,8 +28,6 @@ public sealed class UserService : ServiceBase, IUserService
     public async Task<Guid> CreateAsync(UserCreateDto user, CancellationToken cancellationToken)
     {
         var entity = Mapper.Map<User>(user);
-        entity.Id = Guid.NewGuid();
-        entity.AddCreationTrackingInfo(UserId);
         await Repository.CreateAsync(entity);
         await Repository.SaveChangesAsync(cancellationToken);
         return entity.Id;
@@ -38,7 +36,6 @@ public sealed class UserService : ServiceBase, IUserService
     public async Task UpdateAsync(UserDto user, CancellationToken cancellationToken)
     {
         var entity = Mapper.Map<User>(user);
-        entity.AddUpdatingTrackingInfo(UserId);
         Repository.Update(entity);
         await Repository.SaveChangesAsync(cancellationToken);
     }

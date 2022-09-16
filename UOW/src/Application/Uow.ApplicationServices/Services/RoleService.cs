@@ -19,8 +19,6 @@ public sealed class RoleService : ServiceBase, IRoleService
     public async Task<Guid> CreateAsync(RoleCreateDto role, CancellationToken cancellationToken)
     {
         var entity = Mapper.Map<Role>(role);
-        entity.Id = Guid.NewGuid();
-        entity.AddCreationTrackingInfo(UserId);
         await Repository.CreateAsync(entity);
         await Repository.SaveChangesAsync(cancellationToken);
         return entity.Id;
@@ -29,7 +27,6 @@ public sealed class RoleService : ServiceBase, IRoleService
     public async Task UpdateAsync(RoleDto role, CancellationToken cancellationToken)
     {
         var entity = Mapper.Map<Role>(role);
-        entity.AddUpdatingTrackingInfo(UserId);
         Repository.Update(entity);
         await Repository.SaveChangesAsync(cancellationToken);
     }

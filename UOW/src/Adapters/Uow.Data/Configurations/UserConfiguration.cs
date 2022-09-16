@@ -17,6 +17,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(x => x.Email).IsUnique();
         builder.Property(p => p.Id).ValueGeneratedNever();
         builder.Property(p => p.Email).IsRequired();
+        builder.Property(p => p.CreationDate).HasDefaultValue(DateTime.UtcNow);
 
         builder
             .HasMany(s => s.Roles)
