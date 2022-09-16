@@ -2,16 +2,16 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 using AutoMapper;
-using Uow.API.Services;
 using Uow.ApplicationServices.Cryptography;
 using Uow.Domain.Entities;
+using Uow.PrimaryPorts;
 using Uow.PrimaryPorts.Dtos;
 
 namespace Uow.ApplicationServices.Mappers;
 
 public sealed class UowMapperProfile : Profile
 {
-    private readonly IUserResolverService? userResolver;
+    private readonly IUserResolverService userResolver;
     public UowMapperProfile()
     {
         userResolver = ServiceLocator.GetService<IUserResolverService>();

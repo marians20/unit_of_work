@@ -9,14 +9,21 @@ public static class ServiceLocator
 {
     public static IServiceProvider? Provider { set; private get; }
 
-    public static TService? GetService<TService>()
+    public static TService GetService<TService>()
     {
         if (Provider == null)
         {
             throw new NullReferenceException(nameof(Provider));
         }
 
-        return (TService?)Provider.GetService(typeof(TService));
+        var result = Provider.GetService<TService>();
+
+        if (result == null)
+        {
+            throw new NullReferenceException(nameof(TService));
+        }
+
+        return result;
     }
 
     public static IEnumerable<TService> GetServices<TService>()
@@ -26,6 +33,6 @@ public static class ServiceLocator
             throw new NullReferenceException(nameof(Provider));
         }
 
-        return (IEnumerable<TService>)Provider.GetServices(typeof(TService));
+        return Provider.GetServices<TService>();
     }
 }

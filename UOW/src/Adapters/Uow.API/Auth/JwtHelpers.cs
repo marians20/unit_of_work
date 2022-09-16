@@ -13,7 +13,7 @@ public static class JwtHelpers
 {
     public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, Guid id) =>
         new Claim[] {
-            new("Id", userAccounts.Id.ToString()),
+            new(ClaimTypes.Sid, userAccounts.Id.ToString()),
             new(ClaimTypes.Name, userAccounts.UserName),
             new(ClaimTypes.Email, userAccounts.EmailId),
             new(ClaimTypes.NameIdentifier, id.ToString()),

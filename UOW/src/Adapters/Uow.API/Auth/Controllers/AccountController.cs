@@ -15,7 +15,7 @@ public class AccountController : ControllerBase
     private static readonly IEnumerable<User> Logins = new List<User>() {
         new() {
             Id = Guid.NewGuid(),
-            EmailId = "adminakp@gmail.com",
+            EmailId = "admin@gmail.com",
             UserName = "Admin",
             Password = "Admin",
         },

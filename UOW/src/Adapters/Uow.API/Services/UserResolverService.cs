@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Uow.API.Auth;
 using Uow.API.Auth.Models;
+using Uow.PrimaryPorts;
 
 namespace Uow.API.Services;
 

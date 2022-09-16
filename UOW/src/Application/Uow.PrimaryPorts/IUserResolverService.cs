@@ -2,7 +2,7 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
-namespace Uow.API.Services;
+namespace Uow.PrimaryPorts;
 
 public interface IUserResolverService
 {
