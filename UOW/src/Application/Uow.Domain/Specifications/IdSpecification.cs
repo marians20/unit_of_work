@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Linq.Expressions;
-using Uow.Domain.Entities;
+using Uow.Domain.Entities.Abstractions;
 
 namespace Uow.Domain.Specifications;
 public class IdSpecification : Specification<EntityBase>

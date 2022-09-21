@@ -2,7 +2,7 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
-using Uow.Domain.Entities;
+using Uow.Domain.Entities.Abstractions;
 
 namespace Uow.PrimaryPorts.Dtos;
 

@@ -28,5 +28,20 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
                 j.HasOne(ur => ur.User).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.RoleId);
                 j.HasOne(ur => ur.Role).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.UserId);
             });
+
+        builder.OwnsOne(
+            x => x.Address,
+            bld =>
+            {
+                bld.ToTable("Addresses");
+                bld.Property<Guid>("Id");
+                bld.HasKey("Id");
+                bld.OwnsOne(x => x.City);
+                bld.OwnsOne(x => x.Country);
+                bld.OwnsOne(x => x.County);
+                bld.OwnsOne(x => x.PostalCode);
+                bld.OwnsOne(x => x.FirstLine);
+                bld.OwnsOne(x => x.SecondLine);
+            });
     }
 }

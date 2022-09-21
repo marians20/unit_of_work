@@ -4,7 +4,7 @@
 
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using Uow.Domain.Entities;
+using Uow.Domain.Entities.Abstractions;
 using Uow.Domain.Extensions;
 using Uow.SecondaryPorts;
 

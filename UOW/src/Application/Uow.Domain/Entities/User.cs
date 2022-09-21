@@ -2,6 +2,7 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
+using Uow.Domain.Entities.Abstractions;
 using Uow.Domain.Specifications;
 
 namespace Uow.Domain.Entities;
@@ -21,6 +22,8 @@ public class User : EntityWithTracking
     public bool IsDeleted { get; set; } = false;
 
     public bool IsEmailConfirmed { get; set; } = false;
+
+    public Address? Address { get; set; }
 
     public ICollection<Role> Roles { get; set; } = new HashSet<Role>();
 

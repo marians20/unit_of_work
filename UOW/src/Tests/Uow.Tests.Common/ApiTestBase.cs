@@ -1,15 +1,8 @@
-namespace Uow.Tests.Common
-{
-    public abstract class ApiTestBase
-    {
-        //protected readonly CustomWebApplicationFactory Application;
-        protected readonly HttpClient Client;
+namespace Uow.Tests.Common;
 
-        public ApiTestBase()
-        {
-            //Application = new CustomWebApplicationFactory();
-            //Client = Application.CreateClient();
-            Client = new CustomWebApplicationFactory().CreateClient();
-        }
-    }
+public abstract class ApiTestBase
+{
+    protected readonly HttpClient Client;
+
+    protected ApiTestBase() => Client = new CustomWebApplicationFactory().CreateClient();
 }

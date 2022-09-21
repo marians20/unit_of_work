@@ -2,6 +2,8 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
+using Uow.Domain.Entities.Abstractions;
+
 namespace Uow.Domain.Entities;
 public class Role: EntityWithTracking
 {
