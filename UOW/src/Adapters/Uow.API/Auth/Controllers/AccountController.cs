@@ -2,10 +2,9 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Uow.API.Auth.Models;
-using Uow.API.Auth.Specifications;
+using Uow.API.Auth.Services;
 
 namespace Uow.API.Auth.Controllers;
 
@@ -13,56 +12,20 @@ namespace Uow.API.Auth.Controllers;
 [ApiController]
 public class AccountController : ControllerBase
 {
-    private static readonly IEnumerable<User> Logins = new List<User>() {
-        new() {
-            Id = Guid.NewGuid(),
-            EmailId = "adminakp@gmail.com",
-            UserName = "Admin",
-            Password = "Admin",
-        },
-        new() {
-            Id = Guid.NewGuid(),
-            EmailId = "adminakp@gmail.com",
-            UserName = "User1",
-            Password = "Admin",
-        }
-    };
+    private readonly IAuthService authService;
 
-    private readonly JwtSettings jwtSettings;
-
-    public AccountController(JwtSettings jwtSettings) => this.jwtSettings = jwtSettings;
+    public AccountController(IAuthService authService) => this.authService = authService;
 
 
     [HttpPost]
-    public IActionResult GetToken(UserLogin userLogin)
+    public IActionResult Login(UserLogin userLogin)
     {
-        var filter = new UserByNameAndPassword(userLogin.UserName, userLogin.Password);
-
-        if (!Logins.Any(filter))
+        var userTokens = authService.GetToken(userLogin);
+        if (userTokens == null)
         {
-            return BadRequest($"wrong user");
+            return Unauthorized();
         }
-
-        var user = Logins.First(filter);
-        var userTokens = JwtHelpers.GenTokenKey(new UserTokens()
-        {
-            EmailId = user.EmailId,
-            GuidId = Guid.NewGuid(),
-            UserName = user.UserName,
-            Id = user.Id,
-        }, jwtSettings);
 
         return Ok(userTokens);
     }
-    /// <summary>
-    /// Get List of UserAccounts
-    /// </summary>
-    /// <returns>List Of UserAccounts</returns>
-    [HttpGet]
-    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-    public IActionResult GetList() => Ok(Logins);
-
-    private static Func<User, bool> UserByNameAndPasswordPredicate(string userName, string password) => x
-        => x.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
-            && x.Password.Equals(password, StringComparison.InvariantCulture);
 }

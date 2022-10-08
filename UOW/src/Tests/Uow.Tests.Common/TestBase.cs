@@ -19,7 +19,9 @@ public abstract class TestBase<T> : IDisposable
     protected TestBase()
     {
         MockRepository = new MockRepository(MockBehavior.Strict);
+
         CreateMocks();
+
         SetupMocks();
         Sut = CreateSut();
     }
@@ -42,6 +44,7 @@ public abstract class TestBase<T> : IDisposable
     /// </summary>
     protected virtual void SetupMocks()
     {
+        // empty
     }
 
     public void Dispose()

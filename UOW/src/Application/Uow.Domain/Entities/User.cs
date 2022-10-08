@@ -1,6 +1,10 @@
 ﻿// <copyright file="User.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
+
+using Uow.Domain.Entities.Abstractions;
+using Uow.Domain.Specifications;
+
 namespace Uow.Domain.Entities;
 
 public class User : EntityWithTracking
@@ -19,7 +23,11 @@ public class User : EntityWithTracking
 
     public bool IsEmailConfirmed { get; set; } = false;
 
+    public Address? Address { get; set; }
+
     public ICollection<Role> Roles { get; set; } = new HashSet<Role>();
 
     public ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
+
+    public bool IsAdmin => new IsUserAdminSpecification().IsSatisfiedBy(this);
 }

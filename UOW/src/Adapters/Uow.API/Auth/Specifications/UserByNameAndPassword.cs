@@ -1,4 +1,4 @@
-﻿// <copyright file="Repository.cs" company="Microsoft">
+﻿// <copyright file="UserByNameAndPassword.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
@@ -19,7 +19,6 @@ public sealed class UserByNameAndPassword : Specification<User>
         this.password = password;
     }
 
-    public override Expression<Func<User, bool>> ToExpression() => x
-        => x.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
-           && x.Password.Equals(password, StringComparison.InvariantCulture);
+    public override Expression<Func<User, bool>> ToExpression() =>
+        x => x.UserName == userName && x.Password == password;
 }

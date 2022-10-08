@@ -6,7 +6,7 @@ using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Uow.Data.Configurations;
-using Uow.Domain.Entities;
+using Uow.Domain.Entities.Abstractions;
 
 namespace Uow.Data;
 
@@ -33,6 +33,7 @@ public class UowContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         RegisterAllEntities<EntityBase>(modelBuilder, typeof(EntityBase).Assembly);
+        //RegisterAllEntities<ValueObject>(modelBuilder, typeof(ValueObject).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
     }
 

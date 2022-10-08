@@ -5,9 +5,13 @@
 using Uow.API.Extensions;
 using Uow.API.Middleware;
 using Uow.API.Auth.Extensions;
+using Uow.API.Auth.Services;
 using Uow.API.Filters;
+using Uow.API.Services;
 using Uow.Application.Bootstrap;
+using Uow.ApplicationServices;
 using Uow.Data;
+using Uow.PrimaryPorts;
 
 namespace Uow.API;
 
@@ -22,6 +26,8 @@ public class Program
         // Add services to the container.
         builder.Services
             .AddHttpContextAccessor()
+            .AddTransient<IAuthService, AuthService>()
+            .AddTransient<IUserResolverService, UserResolverService>()
             .RegisterData(builder.Configuration)
             .RegisterDomain();
 
@@ -35,8 +41,10 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwagger();
 
-        var app = builder.Build();
+        
 
+        var app = builder.Build();
+        ServiceLocator.Provider = app.Services;
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {

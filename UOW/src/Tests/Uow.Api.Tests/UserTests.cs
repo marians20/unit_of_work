@@ -35,7 +35,7 @@ public class UserTests: ApiTestBase
         var actualUsers = JsonConvert.DeserializeObject<IEnumerable<UserDto>>(body);
 
         actualUsers.Should().NotBeNullOrEmpty();
-        actualUsers.FirstOrDefault().Should().BeEquivalentTo(userDto);
+        actualUsers.FirstOrDefault().Email.Should().BeEquivalentTo(userDto.Email);
     }
 }
 
