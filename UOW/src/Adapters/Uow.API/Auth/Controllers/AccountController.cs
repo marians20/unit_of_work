@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Uow.API.Auth.Models;
+using Uow.API.Auth.Specifications;
 
 namespace Uow.API.Auth.Controllers;
 
@@ -35,12 +36,14 @@ public class AccountController : ControllerBase
     [HttpPost]
     public IActionResult GetToken(UserLogin userLogin)
     {
-        if (!Logins.Any(UserByNameAndPasswordPredicate(userLogin.UserName, userLogin.Password)))
+        var filter = new UserByNameAndPassword(userLogin.UserName, userLogin.Password);
+
+        if (!Logins.Any(filter))
         {
             return BadRequest($"wrong user");
         }
 
-        var user = Logins.First(UserByNameAndPasswordPredicate(userLogin.UserName, userLogin.Password));
+        var user = Logins.First(filter);
         var userTokens = JwtHelpers.GenTokenKey(new UserTokens()
         {
             EmailId = user.EmailId,
