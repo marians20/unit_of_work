@@ -12,7 +12,7 @@ public class UserTests: ApiTestBase
     [Fact]
     public async Task Test1()
     {
-        var userDto = new UserDto() { Email = "john.smith@gmail.com" };
+        var userDto = new UserDto { Email = "john.smith@gmail.com" };
 
         var response = await Client.PostAsync("User", JsonContent.Create(userDto));
         response.IsSuccessStatusCode.Should().BeTrue();

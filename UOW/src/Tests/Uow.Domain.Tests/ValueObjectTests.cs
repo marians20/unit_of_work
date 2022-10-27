@@ -9,47 +9,40 @@ namespace Uow.Domain.Tests;
 
 public class ValueObjectTests
 {
-    [Fact]
-    public void TowValueObjects_ShouldBeEqual_WhenAllMembersAreEqual()
+    [Theory]
+    [InlineData("TheCountry", "TheCounty", "City", "123456", "The name of the street and number", "Building and details", true)]
+    [InlineData("The Country", "TheCounty", "City", "123456", "The name of the street and number", "Building and details", false)]
+    [InlineData("TheCountry", "The County", "City", "123456", "The name of the street and number", "Building and details", false)]
+    [InlineData("TheCountry", "TheCounty", "Citty", "123456", "The name of the street and number", "Building and details", false)]
+    [InlineData("TheCountry", "TheCounty", "City", "123457", "The name of the street and number", "Building and details", false)]
+    [InlineData("TheCountry", "TheCounty", "City", "123456", "The name of the streets and number", "Building and details", false)]
+    [InlineData("TheCountry", "TheCounty", "City", "123456", "The name of the street and number", "Building and detail", false)]
+
+    public void ToValueObjects_ShouldBeEqual_WhenAllMembersAreEqual(
+        string country,
+        string county,
+        string city,
+        string postalCode,
+        string firstLine,
+        string secondLine,
+        bool equals)
     {
         var a1 = new Address(
-            "Romania",
-            "Iasi",
-            "Iasi",
-            "700588",
-            "Piata Voievozilor Nr. 13",
-            "Bl.C2, Sc.A Et.1 Ap.3");
+            "TheCountry",
+            "TheCounty",
+            "City",
+            "123456",
+            "The name of the street and number",
+            "Building and details");
 
-        var a2 = new Address(
-            "Romania",
-            "Iasi",
-            "Iasi",
-            "700588",
-            "Piata Voievozilor Nr. 13",
-            "Bl.C2, Sc.A Et.1 Ap.3");
-
-        a1.Should().BeEquivalentTo(a2);
-    }
-
-    [Fact]
-    public void TowValueObjects_ShouldNotBeEqual_WhenOneMemberDiffers()
-    {
-        var a1 = new Address(
-            "Romania",
-            "Iasi",
-            "Iasi",
-            "700588",
-            "Piata Voievozilor Nr. 13",
-            "Bl.C2, Sc.A Et.1 Ap.3");
-
-        var a2 = new Address(
-            "Romania",
-            "Iasi",
-            "Iasi",
-            "700589",
-            "Piata Voievozilor Nr. 13",
-            "Bl.C2, Sc.A Et.1 Ap.3");
-
-        a1.Should().NotBeEquivalentTo(a2);
+        var a2 = new Address(country, county, city, postalCode, firstLine, secondLine);
+        if (equals)
+        {
+            a1.Should().BeEquivalentTo(a2);
+        }
+        else
+        {
+            a1.Should().NotBeEquivalentTo(a2);
+        }
     }
 }
