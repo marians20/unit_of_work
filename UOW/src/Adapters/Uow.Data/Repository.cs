@@ -25,8 +25,8 @@ internal class Repository<TContext> : IRepository where TContext : DbContext
     public Repository(TContext context) => this.context = context;
 
     /// <inheritdoc />
-    public async Task CreateAsync<T>(T entity) where T : class =>
-        await Set<T>().AddAsync(entity).ConfigureAwait(false);
+    public async Task CreateAsync<T>(T entity, CancellationToken cancellationToken = default) where T : class =>
+        await Set<T>().AddAsync(entity, cancellationToken).ConfigureAwait(false);
 
     /// <inheritdoc />
     public void Update<T>(T entity) where T : class =>

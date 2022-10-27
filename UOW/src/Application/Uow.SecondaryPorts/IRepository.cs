@@ -16,8 +16,9 @@ public interface IRepository
     /// </summary>
     /// <typeparam name="T">entity type</typeparam>
     /// <param name="entity"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task CreateAsync<T>(T entity) where T : class;
+    Task CreateAsync<T>(T entity, CancellationToken cancellationToken = default) where T : class;
 
     /// <summary>
     /// Updates an entity

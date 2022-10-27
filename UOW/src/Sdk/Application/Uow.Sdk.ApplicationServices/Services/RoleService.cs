@@ -4,10 +4,15 @@
 
 using Uow.PrimaryPorts;
 using Uow.PrimaryPorts.Dtos;
+using Uow.SecondaryPorts;
 
 namespace Uow.Sdk.ApplicationServices.Services;
 public sealed class RoleService : IRoleService
 {
+    private readonly IRepository repository;
+
+    public RoleService(IRepository repository) => this.repository = repository;
+
     public Task<Guid> CreateAsync(RoleCreateDto role, CancellationToken cancellationToken) => throw new NotImplementedException();
 
     public Task UpdateAsync(RoleDto role, CancellationToken cancellationToken) => throw new NotImplementedException();
