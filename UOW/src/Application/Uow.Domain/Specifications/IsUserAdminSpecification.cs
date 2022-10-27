@@ -2,6 +2,7 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
+using Microsoft.Rise.FeedbackService.Core.Lib;
 using System.Linq.Expressions;
 using Uow.Domain.Entities;
 

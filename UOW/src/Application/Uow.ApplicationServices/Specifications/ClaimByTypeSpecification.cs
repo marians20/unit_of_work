@@ -2,9 +2,9 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
+using Microsoft.Rise.FeedbackService.Core.Lib;
 using System.Linq.Expressions;
 using System.Security.Claims;
-using Uow.Domain.Lib;
 
 namespace Uow.ApplicationServices.Specifications;
 public sealed class ClaimByTypeSpecification : Specification<Claim>

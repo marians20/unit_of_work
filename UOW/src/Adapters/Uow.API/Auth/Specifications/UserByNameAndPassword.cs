@@ -2,9 +2,9 @@
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
+using Microsoft.Rise.FeedbackService.Core.Lib;
 using System.Linq.Expressions;
 using Uow.API.Auth.Models;
-using Uow.Domain.Lib;
 
 namespace Uow.API.Auth.Specifications;
 
